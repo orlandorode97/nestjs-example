@@ -12,11 +12,11 @@ export class CurrentUserInterceptor implements NestInterceptor{
     constructor(private userService: UsersService){}
 
     async intercept(context: ExecutionContext, next: CallHandler) {
-        const request = context.switchToHttp().getRequest()
-        const {user_id} = request.session || {}
+        const request = context.switchToHttp().getRequest() // getting the incoming request information
+        const {user_id} = request.session || {} // get the user_id from the request.session
         if(user_id) {
-            const user = await this.userService.findOne(user_id)
-            request.current_user = user;
+            const user = await this.userService.findOne(user_id) // find by user_id in case a truly value
+            request.current_user = user; // attach user info into the current request
         }
         return next.handle()
     }
