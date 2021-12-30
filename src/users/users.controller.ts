@@ -6,7 +6,7 @@ import { Serialize } from '../interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
-import { AuthGuard } from 'src/guards/auth.guard';
+import { AuthGuard } from '../guards/auth.guard';
 
 @Controller('auth')
 @Serialize(UserDto) // -> custom interceptor
@@ -52,8 +52,7 @@ export class UsersController {
 
     @Get()
     async findAllUsers(@Query('email') email: string) {
-        const users = await this.userService.find(email)
-        return users;
+        return await this.userService.find(email)
     }
 
     @Patch('/:id')
